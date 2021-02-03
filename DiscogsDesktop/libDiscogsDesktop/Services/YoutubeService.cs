@@ -5,7 +5,8 @@ using System.Linq;
 using JetBrains.Annotations;
 using libDiscogsDesktop.Tasks;
 using YoutubeExplode;
-using YoutubeExplode.Models.MediaStreams;
+using YoutubeExplode.Videos;
+using YoutubeExplode.Videos.Streams;
 
 namespace libDiscogsDesktop.Services
 {
@@ -17,15 +18,23 @@ namespace libDiscogsDesktop.Services
             {
                 reporter?.ReportInDeterminate("getting links");
 
-                string id = YoutubeClient.ParseVideoId(url);
+                VideoId videoId = new VideoId(url);
                 YoutubeClient client = new YoutubeClient();
-                MediaStreamInfoSet streamInfoSet = client.GetVideoMediaStreamInfosAsync(id).Result;
 
-                MuxedStreamInfo streamInfo = streamInfoSet.Muxed.First(m => m.Container.GetFileExtension().ToLower() == "mp4");
-                //string ext = streamInfo.Container.GetFileExtension();
-                client.DownloadMediaStreamAsync(streamInfo, successPath, reporter == null 
-                    ? null 
-                    : new Progress<double>(d => reporter.ReportDeterminate((int)(d * 100), "downloading"))).Wait();
+                StreamManifest streams = client.Videos.Streams.GetManifestAsync(videoId).Result;
+                IVideoStreamInfo streamInfo = streams.GetMuxed().WithHighestVideoQuality();
+
+                if (streamInfo == null)
+                {
+                    throw new Exception($"no video streams available for {url}");
+                }
+
+                Progress<double> progress = reporter == null
+                    ? null
+                    : new Progress<double>(d => reporter.ReportDeterminate((int)(d * 100), "downloading"));
+
+                client.Videos.Streams.DownloadAsync(streamInfo, successPath, progress).Wait();
+
                 return true;
             }
             catch (Exception exception)

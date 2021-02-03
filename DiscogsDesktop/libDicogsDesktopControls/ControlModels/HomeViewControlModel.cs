@@ -141,7 +141,7 @@ namespace libDicogsDesktopControls.ControlModels
                     new DataColumn("Id"),
                 });
             this.collectionResults.Clear();
-            DiscogsService.GetCollectionReleases(this.User.username, this.collectionResults);
+            DiscogsService.GetCollectionReleases(this.User?.username, this.collectionResults);
         }
 
         public void DownloadCurrentList()
