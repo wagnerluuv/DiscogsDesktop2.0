@@ -18,8 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscogsClient", "DiscogsClient\DiscogsClient.csproj", "{019EE4FB-48E1-4BFF-B3C1-72C6AE76ED5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{5A980FA7-5CEB-47F9-A9F6-1AEA73E1135D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,10 +43,6 @@ Global
 		{019EE4FB-48E1-4BFF-B3C1-72C6AE76ED5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{019EE4FB-48E1-4BFF-B3C1-72C6AE76ED5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{019EE4FB-48E1-4BFF-B3C1-72C6AE76ED5A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5A980FA7-5CEB-47F9-A9F6-1AEA73E1135D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5A980FA7-5CEB-47F9-A9F6-1AEA73E1135D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5A980FA7-5CEB-47F9-A9F6-1AEA73E1135D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5A980FA7-5CEB-47F9-A9F6-1AEA73E1135D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
