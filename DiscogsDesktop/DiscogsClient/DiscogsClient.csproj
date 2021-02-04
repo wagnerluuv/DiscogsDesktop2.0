@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F0138D25-8712-4DCA-880A-507067AC1326}</ProjectGuid>
+    <ProjectGuid>{019EE4FB-48E1-4BFF-B3C1-72C6AE76ED5A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DiscogsClient</RootNamespace>
     <AssemblyName>DiscogsClient</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -21,7 +22,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,20 +30,25 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AngleSharp, Version=0.14.0.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
+      <HintPath>..\packages\AngleSharp.0.14.0\lib\net472\AngleSharp.dll</HintPath>
+    </Reference>
     <Reference Include="ComposableAsync.Core, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ComposableAsync.Core.1.3.0\lib\netstandard2.0\ComposableAsync.Core.dll</HintPath>
+      <HintPath>..\packages\ComposableAsync.Core.1.3.0\lib\net472\ComposableAsync.Core.dll</HintPath>
     </Reference>
     <Reference Include="JetBrains.Annotations, Version=2020.3.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.2020.3.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="RateLimiter, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RateLimiter.2.2.0\lib\netstandard2.0\RateLimiter.dll</HintPath>
+      <HintPath>..\packages\RateLimiter.2.2.0\lib\net472\RateLimiter.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=106.11.7.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.11.7\lib\net452\RestSharp.dll</HintPath>
@@ -52,28 +57,40 @@
       <HintPath>..\packages\RestSharpHelper.1.1.1\lib\net461\RestSharpHelper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Reactive, Version=5.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reactive.5.0.0\lib\netstandard2.0\System.Reactive.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Core, Version=3.0.6000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reactive.Core.5.0.0\lib\netstandard2.0\System.Reactive.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Interfaces, Version=3.0.6000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reactive.Interfaces.5.0.0\lib\netstandard2.0\System.Reactive.Interfaces.dll</HintPath>
+      <HintPath>..\packages\System.Reactive.5.0.0\lib\net472\System.Reactive.dll</HintPath>
     </Reference>
     <Reference Include="System.Reactive.Linq, Version=3.0.6000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reactive.Linq.5.0.0\lib\netstandard2.0\System.Reactive.Linq.dll</HintPath>
+      <HintPath>..\packages\System.Reactive.Linq.5.0.0\lib\net472\System.Reactive.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.CodePages, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.5.0.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.5.0.0\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=5.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.5.0.1\lib\net461\System.Text.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows" />
@@ -84,63 +101,65 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="TagLibSharp, Version=2.2.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
+      <HintPath>..\packages\TagLibSharp.2.2.0\lib\net45\TagLibSharp.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
+    <Reference Include="YoutubeExplode, Version=5.1.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YoutubeExplode.5.1.9\lib\net461\YoutubeExplode.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\Discogs.cs" />
+    <Compile Include="Client\DiscogsClient.cs" />
+    <Compile Include="Client\DiscogsWebClient.cs" />
+    <Compile Include="Client\IDiscogsWebClient.cs" />
+    <Compile Include="Client\TokenAuthenticationInformation.cs" />
+    <Compile Include="Data\Query\DiscogsEntityType.cs" />
     <Compile Include="Data\Query\DiscogsImageType.cs" />
+    <Compile Include="Data\Query\DiscogsPaginable.cs" />
+    <Compile Include="Data\Query\DiscogsSearch.cs" />
     <Compile Include="Data\Query\DiscogsSortInformation.cs" />
-    <Compile Include="Data\Result\DiscogsArtistRelease.cs" />
     <Compile Include="Data\Result\DiscogsArtist.cs" />
-    <Compile Include="Data\Result\DiscogsCollectionRelease.cs" />
-    <Compile Include="Data\Result\DiscogsCommunityReleaseRating.cs" />
-    <Compile Include="Data\Result\DiscogsIdentity.cs" />
-    <Compile Include="Data\Result\DiscogsLabelRelease.cs" />
-    <Compile Include="Data\Result\DiscogsReleaseLabel.cs" />
-    <Compile Include="Data\Result\DiscogsPaginableResults.cs" />
-    <Compile Include="Data\Result\DiscogsReleaseRating.cs" />
-    <Compile Include="Data\Result\DiscogsReleases.cs" />
-    <Compile Include="Data\Result\DiscogsSortOrder.cs" />
-    <Compile Include="Data\Result\DiscogsGroupOrBandMember.cs" />
+    <Compile Include="Data\Result\DiscogsArtistRelease.cs" />
+    <Compile Include="Data\Result\DiscogsArtistReleases.cs" />
     <Compile Include="Data\Result\DiscogsArtistSortType.cs" />
-    <Compile Include="Data\Result\DiscogsMaster.cs" />
-    <Compile Include="Data\Result\DiscogsRating.cs" />
-    <Compile Include="Data\Result\DiscogsCommunityInfo.cs" />
+    <Compile Include="Data\Result\DiscogsCollectionRelease.cs" />
+    <Compile Include="Data\Result\DiscogsCollectionReleases.cs" />
     <Compile Include="Data\Result\DiscogsCommunity.cs" />
+    <Compile Include="Data\Result\DiscogsCommunityInfo.cs" />
+    <Compile Include="Data\Result\DiscogsCommunityReleaseRating.cs" />
     <Compile Include="Data\Result\DiscogsEntity.cs" />
     <Compile Include="Data\Result\DiscogsFormat.cs" />
+    <Compile Include="Data\Result\DiscogsGroupOrBandMember.cs" />
     <Compile Include="Data\Result\DiscogsIdentifier.cs" />
+    <Compile Include="Data\Result\DiscogsIdentity.cs" />
+    <Compile Include="Data\Result\DiscogsImage.cs" />
     <Compile Include="Data\Result\DiscogsImageType.cs" />
     <Compile Include="Data\Result\DiscogsLabel.cs" />
+    <Compile Include="Data\Result\DiscogsLabelRelease.cs" />
+    <Compile Include="Data\Result\DiscogsLabelReleases.cs" />
+    <Compile Include="Data\Result\DiscogsMaster.cs" />
+    <Compile Include="Data\Result\DiscogsPaginableResults.cs" />
     <Compile Include="Data\Result\DiscogsPaginedResult.cs" />
     <Compile Include="Data\Result\DiscogsPaginedUrls.cs" />
-    <Compile Include="Data\Query\DiscogsPaginable.cs" />
-    <Compile Include="Data\Query\DiscogsEntityType.cs" />
-    <Compile Include="Data\Query\DiscogsSearch.cs" />
+    <Compile Include="Data\Result\DiscogsRating.cs" />
+    <Compile Include="Data\Result\DiscogsRelease.cs" />
+    <Compile Include="Data\Result\DiscogsReleaseArtist.cs" />
     <Compile Include="Data\Result\DiscogsReleaseBase.cs" />
+    <Compile Include="Data\Result\DiscogsReleaseLabel.cs" />
+    <Compile Include="Data\Result\DiscogsReleaseRating.cs" />
+    <Compile Include="Data\Result\DiscogsReleases.cs" />
+    <Compile Include="Data\Result\DiscogsReleaseVersion.cs" />
+    <Compile Include="Data\Result\DiscogsReleaseVersions.cs" />
     <Compile Include="Data\Result\DiscogsSearchResult.cs" />
+    <Compile Include="Data\Result\DiscogsSearchResults.cs" />
+    <Compile Include="Data\Result\DiscogsSortOrder.cs" />
     <Compile Include="Data\Result\DiscogsSublabel.cs" />
     <Compile Include="Data\Result\DiscogsSubtrack.cs" />
     <Compile Include="Data\Result\DiscogsTrack.cs" />
-    <Compile Include="Data\Result\DiscogsReleaseArtist.cs" />
-    <Compile Include="Data\Result\DiscogsImage.cs" />
-    <Compile Include="Data\Result\DiscogsRelease.cs" />
-    <Compile Include="Data\Result\DiscogsSearchResults.cs" />
     <Compile Include="Data\Result\DiscogsUser.cs" />
-    <Compile Include="Data\Result\DiscogsReleaseVersion.cs" />
     <Compile Include="Data\Result\DiscogsVideo.cs" />
-    <Compile Include="Data\Result\DiscogsArtistReleases.cs" />
-    <Compile Include="Data\Result\DiscogsCollectionReleases.cs" />
-    <Compile Include="DiscogsAuthentifierClient.cs" />
-    <Compile Include="DiscogsClient.cs" />
-    <Compile Include="DiscogsException.cs" />
-    <Compile Include="Data\Result\DiscogsReleaseVersions.cs" />
-    <Compile Include="Data\Result\DiscogsLabelReleases.cs" />
-    <Compile Include="IDiscogsDataBaseClient.cs" />
-    <Compile Include="IDiscogsReleaseRatingClient.cs" />
-    <Compile Include="IDiscogsUserIdentityClient.cs" />
-    <Compile Include="Internal\DiscogsWebClient.cs" />
-    <Compile Include="Internal\IDiscogsWebClient.cs" />
-    <Compile Include="Internal\TokenAuthenticationInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -149,11 +168,4 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

@@ -17,6 +17,8 @@ namespace libDicogsDesktopControls.ControlModels
 {
     public class DiscogsArtistControlModel : TitleAndImageControlModel
     {
+        
+
         private readonly DiscogsArtist artist;
 
         private readonly ObservableCollection<DiscogsArtistRelease> releases = new ObservableCollection<DiscogsArtistRelease>();

@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libDiscogsDesktop", "libDiscogsDesktop\libDiscogsDesktop.csproj", "{1C72E6C8-F781-456F-916A-4AD4A022BAB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscogsClient", "DiscogsClient\DiscogsClient.csproj", "{F0138D25-8712-4DCA-880A-507067AC1326}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscogsDesktop", "DiscogsDesktop\DiscogsDesktop.csproj", "{39CD7D2D-E2EE-406E-BBCB-93CEB75DDB40}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libDicogsDesktopControls", "libDicogsDesktopControls\libDicogsDesktopControls.csproj", "{EDAD4886-C175-4077-A9D2-4BAD9A7CB32B}"
@@ -18,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscogsClient", "DiscogsClient\DiscogsClient.csproj", "{019EE4FB-48E1-4BFF-B3C1-72C6AE76ED5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{5A980FA7-5CEB-47F9-A9F6-1AEA73E1135D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,10 +30,6 @@ Global
 		{1C72E6C8-F781-456F-916A-4AD4A022BAB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C72E6C8-F781-456F-916A-4AD4A022BAB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C72E6C8-F781-456F-916A-4AD4A022BAB7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F0138D25-8712-4DCA-880A-507067AC1326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F0138D25-8712-4DCA-880A-507067AC1326}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F0138D25-8712-4DCA-880A-507067AC1326}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F0138D25-8712-4DCA-880A-507067AC1326}.Release|Any CPU.Build.0 = Release|Any CPU
 		{39CD7D2D-E2EE-406E-BBCB-93CEB75DDB40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{39CD7D2D-E2EE-406E-BBCB-93CEB75DDB40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39CD7D2D-E2EE-406E-BBCB-93CEB75DDB40}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -43,6 +41,14 @@ Global
 		{B65377E5-CD45-4373-98AA-143D0BA2232A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B65377E5-CD45-4373-98AA-143D0BA2232A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B65377E5-CD45-4373-98AA-143D0BA2232A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{019EE4FB-48E1-4BFF-B3C1-72C6AE76ED5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{019EE4FB-48E1-4BFF-B3C1-72C6AE76ED5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{019EE4FB-48E1-4BFF-B3C1-72C6AE76ED5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{019EE4FB-48E1-4BFF-B3C1-72C6AE76ED5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A980FA7-5CEB-47F9-A9F6-1AEA73E1135D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A980FA7-5CEB-47F9-A9F6-1AEA73E1135D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A980FA7-5CEB-47F9-A9F6-1AEA73E1135D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A980FA7-5CEB-47F9-A9F6-1AEA73E1135D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

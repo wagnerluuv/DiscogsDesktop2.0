@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
+using DiscogsClient.Client;
 using DiscogsClient.Data.Query;
 using DiscogsClient.Data.Result;
-using DiscogsClient.Internal;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
-using DisClient = DiscogsClient.DiscogsClient;
 
 namespace libDiscogsDesktop.Services
 {
     public static class DiscogsService
     {
-        private static DisClient client;
+        private static Discogs client;
 
         private static Dictionary<int, DiscogsRelease> releaseCache = new Dictionary<int, DiscogsRelease>();
 
@@ -118,20 +117,20 @@ namespace libDiscogsDesktop.Services
 
         public static void SetToken(string token)
         {
-            client = new DisClient(new TokenAuthenticationInformation(token), "DiscogsDesktop", 10000);
+            client = new Discogs(token);
             TokenChanged?.Invoke();
         }
 
         public static DiscogsIdentity GetUser()
         {
-            return client.GetUserIdentityAsync().Result;
+            return client.GetUser();
         }
 
         public static DiscogsMaster GetMasterRelease(int id)
         {
             if (!masterCache.ContainsKey(id))
             {
-                masterCache.Add(id, client.GetMasterAsync(id).Result);
+                masterCache.Add(id, client.GetMaster(id));
                 saveCache(masterCache, nameof(masterCache));
             }
 
@@ -142,7 +141,7 @@ namespace libDiscogsDesktop.Services
         {
             if (!releaseCache.ContainsKey(id))
             {
-                releaseCache.Add(id, client.GetReleaseAsync(id).Result);
+                releaseCache.Add(id, client.GetRelease(id));
                 saveCache(releaseCache, nameof(releaseCache));
             }
 
@@ -153,7 +152,7 @@ namespace libDiscogsDesktop.Services
         {
             if (!artistCache.ContainsKey(id))
             {
-                artistCache.Add(id, client.GetArtistAsync(id).Result);
+                artistCache.Add(id, client.GetArtist(id));
                 saveCache(artistCache, nameof(artistCache));
             }
 
@@ -164,7 +163,7 @@ namespace libDiscogsDesktop.Services
         {
             if (!labelCache.ContainsKey(id))
             {
-                labelCache.Add(id, client.GetLabelAsync(id).Result);
+                labelCache.Add(id, client.GetLabel(id));
                 saveCache(labelCache, nameof(labelCache));
             }
 
@@ -173,29 +172,29 @@ namespace libDiscogsDesktop.Services
 
         public static void GetCollectionReleases(string username, ObservableCollection<DiscogsCollectionRelease> observable)
         {
-            client.GetCollectionReleases(username, MaxItems).Subscribe(observable.Add);
+            //client.GetCollectionReleases(username, MaxItems).Subscribe(observable.Add);
         }
 
         public static void Search(string pattern, ObservableCollection<DiscogsSearchResult> observable)
         {
-            client.Search(new DiscogsSearch { query = pattern }, MaxItems).Subscribe(observable.Add);
+            //client.Search(new DiscogsSearch { query = pattern }, MaxItems).Subscribe(observable.Add);
         }
 
         public static void GetLabelReleases(int id, ObservableCollection<DiscogsLabelRelease> observable)
         {
-            client.GetAllLabelReleases(id, MaxItems).Subscribe(observable.Add);
+            //client.GetAllLabelReleases(id, MaxItems).Subscribe(observable.Add);
         }
 
         public static void GetArtistReleases(int id, ObservableCollection<DiscogsArtistRelease> observable)
         {
-            client.GetArtistRelease(id, new DiscogsSortInformation { sort = DiscogsArtistSortType.year, sort_order = DiscogsSortOrderType.desc }, MaxItems).Subscribe(observable.Add);
+            //client.GetArtistRelease(id, new DiscogsSortInformation { sort = DiscogsArtistSortType.year, sort_order = DiscogsSortOrderType.desc }, MaxItems).Subscribe(observable.Add);
         }
 
         public static void DownloadImage(DiscogsImage image, string filepath)
         {
             using (Stream stream = File.Create(filepath))
             {
-                client.DownloadImageAsync(image, stream).Wait();
+                client.DownloadImage(image, stream);
             }
         }
 
