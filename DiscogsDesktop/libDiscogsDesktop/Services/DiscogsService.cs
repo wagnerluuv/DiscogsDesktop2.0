@@ -4,9 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using DiscogsClient.Client;
-using DiscogsClient.Data.Query;
 using DiscogsClient.Data.Result;
-using JetBrains.Annotations;
 using Newtonsoft.Json;
 
 namespace libDiscogsDesktop.Services
@@ -27,7 +25,7 @@ namespace libDiscogsDesktop.Services
 
         public static string CacheFolder => Path.Combine(ApplicationFolder ?? "", "Cache");
 
-        public static int MaxItems { get; set; }
+        public static string ExportFieldInTitle { get; set; }
 
         public static event Action TokenChanged;
 
@@ -42,68 +40,60 @@ namespace libDiscogsDesktop.Services
             else
             {
                 if (File.Exists(Path.Combine(CacheFolder, nameof(releaseCache))))
-                {
                     try
                     {
                         releaseCache =
-                            JsonConvert.DeserializeObject<Dictionary<int, DiscogsRelease>>(File.ReadAllText(Path.Combine(CacheFolder, nameof(releaseCache))));
+                            JsonConvert.DeserializeObject<Dictionary<int, DiscogsRelease>>(
+                                File.ReadAllText(Path.Combine(CacheFolder, nameof(releaseCache))));
                     }
                     catch
                     {
                         //ignore;
                     }
-                }
 
                 if (File.Exists(Path.Combine(CacheFolder, nameof(masterCache))))
-                {
                     try
                     {
                         masterCache =
-                            JsonConvert.DeserializeObject<Dictionary<int, DiscogsMaster>>(File.ReadAllText(Path.Combine(CacheFolder, nameof(masterCache))));
+                            JsonConvert.DeserializeObject<Dictionary<int, DiscogsMaster>>(
+                                File.ReadAllText(Path.Combine(CacheFolder, nameof(masterCache))));
                     }
                     catch
                     {
                         //ignore;
                     }
-                }
 
                 if (File.Exists(Path.Combine(CacheFolder, nameof(artistCache))))
-                {
                     try
                     {
                         artistCache =
-                            JsonConvert.DeserializeObject<Dictionary<int, DiscogsArtist>>(File.ReadAllText(Path.Combine(CacheFolder, nameof(artistCache))));
+                            JsonConvert.DeserializeObject<Dictionary<int, DiscogsArtist>>(
+                                File.ReadAllText(Path.Combine(CacheFolder, nameof(artistCache))));
                     }
                     catch
                     {
                         //ignore;
                     }
-                }
 
                 if (File.Exists(Path.Combine(CacheFolder, nameof(labelCache))))
-                {
                     try
                     {
                         labelCache =
-                            JsonConvert.DeserializeObject<Dictionary<int, DiscogsLabel>>(File.ReadAllText(Path.Combine(CacheFolder, nameof(labelCache))));
+                            JsonConvert.DeserializeObject<Dictionary<int, DiscogsLabel>>(
+                                File.ReadAllText(Path.Combine(CacheFolder, nameof(labelCache))));
                     }
                     catch
                     {
                         //ignore;
                     }
-                }
             }
         }
 
         public static void ClearCache()
         {
-            if (!Directory.Exists(CacheFolder))
-            {
-                return;
-            }
+            if (!Directory.Exists(CacheFolder)) return;
 
             foreach (string cacheFile in Directory.GetFiles(CacheFolder))
-            {
                 try
                 {
                     File.Delete(cacheFile);
@@ -112,7 +102,6 @@ namespace libDiscogsDesktop.Services
                 {
                     //ignore
                 }
-            }
         }
 
         public static void SetToken(string token)
@@ -124,6 +113,11 @@ namespace libDiscogsDesktop.Services
         public static DiscogsIdentity GetUser()
         {
             return client.GetUser();
+        }
+
+        public static DiscogsCustomField[] GetCustomFields()
+        {
+            return client.GetCustomFields().fields;
         }
 
         public static DiscogsMaster GetMasterRelease(int id)
@@ -170,9 +164,12 @@ namespace libDiscogsDesktop.Services
             return labelCache[id];
         }
 
-        public static void GetCollectionReleases(string username, ObservableCollection<DiscogsCollectionRelease> observable)
+        public static void GetCollectionReleases(string username,
+            ObservableCollection<DiscogsCollectionRelease> observable)
         {
-            //client.GetCollectionReleases(username, MaxItems).Subscribe(observable.Add);
+            DiscogsCollectionRelease[] releases = client.GetCollectionReleases();
+            foreach (DiscogsCollectionRelease discogsCollectionRelease in releases)
+                observable.Add(discogsCollectionRelease);
         }
 
         public static void Search(string pattern, ObservableCollection<DiscogsSearchResult> observable)
@@ -182,20 +179,19 @@ namespace libDiscogsDesktop.Services
 
         public static void GetLabelReleases(int id, ObservableCollection<DiscogsLabelRelease> observable)
         {
-            //client.GetAllLabelReleases(id, MaxItems).Subscribe(observable.Add);
+            DiscogsLabelRelease[] releases = client.GetLabelReleases(id);
+            foreach (DiscogsLabelRelease discogsLabelRelease in releases) observable.Add(discogsLabelRelease);
         }
 
         public static void GetArtistReleases(int id, ObservableCollection<DiscogsArtistRelease> observable)
         {
-            //client.GetArtistRelease(id, new DiscogsSortInformation { sort = DiscogsArtistSortType.year, sort_order = DiscogsSortOrderType.desc }, MaxItems).Subscribe(observable.Add);
+            DiscogsArtistRelease[] releases = client.GetArtistReleases(id);
+            foreach (DiscogsArtistRelease discogsArtistRelease in releases) observable.Add(discogsArtistRelease);
         }
 
         public static void DownloadImage(DiscogsImage image, string filepath)
         {
-            using (Stream stream = File.Create(filepath))
-            {
-                client.DownloadImage(image, stream);
-            }
+            File.WriteAllBytes(filepath, client.DownloadImage(image));
         }
 
         private static void saveCache(object cache, string name)

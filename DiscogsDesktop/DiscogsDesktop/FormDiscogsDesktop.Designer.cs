@@ -39,8 +39,8 @@
             this.toolStripTextBoxTableFontSize = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.deleteFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panelView = new System.Windows.Forms.Panel();
             this.clearCacheToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panelView = new System.Windows.Forms.Panel();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,14 +72,14 @@
             // tokenToolStripMenuItem
             // 
             this.tokenToolStripMenuItem.Name = "tokenToolStripMenuItem";
-            this.tokenToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.tokenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tokenToolStripMenuItem.Text = "token";
             this.tokenToolStripMenuItem.Click += new System.EventHandler(this.tokenToolStripMenuItemClick);
             // 
             // folderToolStripMenuItem
             // 
             this.folderToolStripMenuItem.Name = "folderToolStripMenuItem";
-            this.folderToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.folderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.folderToolStripMenuItem.Text = "folder";
             this.folderToolStripMenuItem.Click += new System.EventHandler(this.folderToolStripMenuItemClick);
             // 
@@ -88,12 +88,13 @@
             this.maxItemsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripTextBoxMaxItems});
             this.maxItemsToolStripMenuItem.Name = "maxItemsToolStripMenuItem";
-            this.maxItemsToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
-            this.maxItemsToolStripMenuItem.Text = "max items";
+            this.maxItemsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.maxItemsToolStripMenuItem.Text = "export field in title";
             this.maxItemsToolStripMenuItem.ToolTipText = "defines how many items will bei displayed when a search is submitted";
             // 
             // toolStripTextBoxMaxItems
             // 
+            this.toolStripTextBoxMaxItems.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripTextBoxMaxItems.Name = "toolStripTextBoxMaxItems";
             this.toolStripTextBoxMaxItems.Size = new System.Drawing.Size(100, 23);
             this.toolStripTextBoxMaxItems.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBoxMaxItemsKeyPress);
@@ -103,11 +104,12 @@
             this.tableFontSizeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripTextBoxTableFontSize});
             this.tableFontSizeToolStripMenuItem.Name = "tableFontSizeToolStripMenuItem";
-            this.tableFontSizeToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.tableFontSizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tableFontSizeToolStripMenuItem.Text = "table font size";
             // 
             // toolStripTextBoxTableFontSize
             // 
+            this.toolStripTextBoxTableFontSize.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripTextBoxTableFontSize.Name = "toolStripTextBoxTableFontSize";
             this.toolStripTextBoxTableFontSize.Size = new System.Drawing.Size(100, 23);
             this.toolStripTextBoxTableFontSize.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBoxTableFontSizeKeyPress);
@@ -127,9 +129,16 @@
             // deleteFilesToolStripMenuItem
             // 
             this.deleteFilesToolStripMenuItem.Name = "deleteFilesToolStripMenuItem";
-            this.deleteFilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteFilesToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.deleteFilesToolStripMenuItem.Text = "delete files";
             this.deleteFilesToolStripMenuItem.Click += new System.EventHandler(this.deleteFilesToolStripMenuItemClick);
+            // 
+            // clearCacheToolStripMenuItem
+            // 
+            this.clearCacheToolStripMenuItem.Name = "clearCacheToolStripMenuItem";
+            this.clearCacheToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.clearCacheToolStripMenuItem.Text = "clear cache";
+            this.clearCacheToolStripMenuItem.Click += new System.EventHandler(this.clearCacheToolStripMenuItemClick);
             // 
             // panelView
             // 
@@ -138,13 +147,6 @@
             this.panelView.Name = "panelView";
             this.panelView.Size = new System.Drawing.Size(851, 428);
             this.panelView.TabIndex = 1;
-            // 
-            // clearCacheToolStripMenuItem
-            // 
-            this.clearCacheToolStripMenuItem.Name = "clearCacheToolStripMenuItem";
-            this.clearCacheToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.clearCacheToolStripMenuItem.Text = "clear cache";
-            this.clearCacheToolStripMenuItem.Click += new System.EventHandler(this.clearCacheToolStripMenuItemClick);
             // 
             // FormDiscogsDesktop
             // 

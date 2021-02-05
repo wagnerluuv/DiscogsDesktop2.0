@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using JetBrains.Annotations;
 using libDiscogsDesktop.Tasks;
 using YoutubeExplode;
 using YoutubeExplode.Videos;
@@ -12,6 +12,16 @@ namespace libDiscogsDesktop.Services
 {
     public static class YoutubeService
     {
+        public static bool GetAudio(string url, string successPath, string failurePath, TaskProgressReporter reporter)
+        {
+            if (!DownloadVideoViaYoutubeExplode(url, successPath, failurePath, reporter))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public static bool DownloadVideoViaYoutubeExplode(string url, string successPath, string failurePath, TaskProgressReporter reporter)
         {
             try
@@ -22,7 +32,20 @@ namespace libDiscogsDesktop.Services
                 YoutubeClient client = new YoutubeClient();
 
                 StreamManifest streams = client.Videos.Streams.GetManifestAsync(videoId).Result;
-                IVideoStreamInfo streamInfo = streams.GetMuxed().WithHighestVideoQuality();
+
+                IEnumerable<AudioOnlyStreamInfo> audioStreams = streams.GetAudioOnly().ToArray();
+
+                IStreamInfo streamInfo;
+
+                streamInfo = streams.GetAudioOnly()
+                    .FirstOrDefault(info =>
+                        info.Bitrate.BitsPerSecond ==
+                        audioStreams.Max(onlyStreamInfo => onlyStreamInfo.Bitrate.BitsPerSecond));
+
+                if (streamInfo == null)
+                {
+                    streamInfo = streams.GetMuxed().WithHighestVideoQuality();
+                }
 
                 if (streamInfo == null)
                 {
@@ -31,7 +54,7 @@ namespace libDiscogsDesktop.Services
 
                 Progress<double> progress = reporter == null
                     ? null
-                    : new Progress<double>(d => reporter.ReportDeterminate((int)(d * 100), "downloading"));
+                    : new Progress<double>(d => reporter.ReportDeterminate((int) (d * 100), "downloading"));
 
                 client.Videos.Streams.DownloadAsync(streamInfo, successPath, progress).Wait();
 

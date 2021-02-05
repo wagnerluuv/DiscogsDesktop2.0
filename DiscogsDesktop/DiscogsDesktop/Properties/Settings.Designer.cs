@@ -49,13 +49,13 @@ namespace DiscogsDesktop.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
-        public int MaxItems {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ExportFieldInTitle {
             get {
-                return ((int)(this["MaxItems"]));
+                return ((string)(this["ExportFieldInTitle"]));
             }
             set {
-                this["MaxItems"] = value;
+                this["ExportFieldInTitle"] = value;
             }
         }
         

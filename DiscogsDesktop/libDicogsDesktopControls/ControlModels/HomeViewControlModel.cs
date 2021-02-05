@@ -138,7 +138,7 @@ namespace libDicogsDesktopControls.ControlModels
                     new DataColumn("Year"),
                     new DataColumn("Added", typeof(DateTime)),
                     new DataColumn("Type"),
-                    new DataColumn("Id"),
+                    new DataColumn("Id")
                 });
             this.collectionResults.Clear();
             DiscogsService.GetCollectionReleases(this.User?.username, this.collectionResults);
@@ -207,13 +207,39 @@ namespace libDicogsDesktopControls.ControlModels
         {
             foreach (DiscogsCollectionRelease collectionRelease in e.NewItems ?? new DiscogsRelease[0])
             {
-                this.CollectionTable.Rows.Add(
-                    collectionRelease.basic_information.title,
-                    string.Join(", ", collectionRelease.basic_information.artists.Select(a => a.name)),
-                    collectionRelease.basic_information.year,
-                    collectionRelease.date_added,
-                    "release",
-                    collectionRelease.id);
+                DataRow dataRow = this.CollectionTable.NewRow();
+
+                dataRow["Title"] = collectionRelease.basic_information.title;
+                dataRow["Artist"] = string.Join(", ", collectionRelease.basic_information.artists.Select(a => a.name));
+                dataRow["Year"] = collectionRelease.basic_information.year;
+                dataRow["Added"] = collectionRelease.date_added;
+                dataRow["Type"] = "release";
+                dataRow["Id"] = collectionRelease.id;
+
+                if (collectionRelease.notes != null)
+                {
+                    DiscogsCustomField[] fields = DiscogsService.GetCustomFields();
+
+                    foreach (DiscogsNote collectionReleaseNote in collectionRelease.notes)
+                    {
+                        DiscogsCustomField field = fields.FirstOrDefault(customField =>
+                            customField.id == collectionReleaseNote.field_id);
+
+                        if (field == null || field.name == "Media Condition" || field.name == "Sleeve Condition")
+                        {
+                            continue;
+                        }
+
+                        if (!this.CollectionTable.Columns.Contains(field.name))
+                        {
+                            this.CollectionTable.Columns.Add(field.name);
+                        }
+
+                        dataRow[field.name] = collectionReleaseNote.value;
+                    }
+                }
+
+                this.CollectionTable.Rows.Add(dataRow);
             }
         }
 

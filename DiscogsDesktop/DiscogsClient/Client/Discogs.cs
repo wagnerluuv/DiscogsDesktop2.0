@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using DiscogsClient.Data.Result;
+using Newtonsoft.Json;
 using RestSharp;
 
 namespace DiscogsClient.Client
 {
     public class Discogs
     {
-        private readonly string Token;
+        private readonly RestClient client;
 
-        private readonly RestClient Client;
+        private DiscogsCustomFields customFields;
+
+        private DiscogsIdentity user;
 
         public Discogs(string token)
         {
-            this.Token = token;
+            client = new RestClient("https://api.discogs.com");
 
-            this.Client = new RestClient("https://api.discogs.com");
-
-            Client.AddDefaultHeaders(new Dictionary<string, string>
+            client.AddDefaultHeaders(new Dictionary<string, string>
             {
                 {"Authorization", $"Discogs token={token}"},
                 {"Accept-Encoding", "gzip"}
@@ -30,34 +29,80 @@ namespace DiscogsClient.Client
 
         public DiscogsIdentity GetUser()
         {
-            DiscogsIdentity user = this.Client.Execute<DiscogsIdentity>(new RestRequest("oauth/identity", Method.GET)).Data;
-
-            return user;
+            return user ?? (user = Get<DiscogsIdentity>("oauth/identity"));
         }
 
-        public DiscogsMaster GetMaster(int id)
+        public DiscogsMaster GetMaster(int masterId)
         {
-            throw new NotImplementedException();
+            return Get<DiscogsMaster>($"masters/{masterId}");
         }
 
-        public DiscogsRelease GetRelease(int id)
+        public DiscogsRelease GetRelease(int releaseId)
         {
-            throw new NotImplementedException();
+            return Get<DiscogsRelease>($"releases/{releaseId}");
         }
 
-        public DiscogsArtist GetArtist(int id)
+        public DiscogsArtist GetArtist(int artistId)
         {
-            throw new NotImplementedException();
+            return Get<DiscogsArtist>($"artists/{artistId}");
         }
 
-        public DiscogsLabel GetLabel(int id)
+        public DiscogsLabel GetLabel(int labelId)
         {
-            throw new NotImplementedException();
+            return Get<DiscogsLabel>($"labels/{labelId}");
         }
 
-        public void DownloadImage(DiscogsImage image, Stream stream)
+        public DiscogsCustomFields GetCustomFields()
         {
-            throw new NotImplementedException();
+            return customFields ??
+                   (customFields = Get<DiscogsCustomFields>($"/users/{GetUser().username}/collection/fields"));
+        }
+
+        public DiscogsCollectionRelease[] GetCollectionReleases()
+        {
+            return GetReleases<DiscogsCollectionRelease>($"/users/{GetUser().username}/collection/folders/0/releases")
+                .ToArray();
+        }
+
+        public DiscogsLabelRelease[] GetLabelReleases(int labelId)
+        {
+            return GetReleases<DiscogsLabelRelease>($"labels/{labelId}/releases").ToArray();
+        }
+
+        public DiscogsArtistRelease[] GetArtistReleases(int artistId)
+        {
+            return GetReleases<DiscogsArtistRelease>($"artists/{artistId}/releases").ToArray();
+        }
+
+        private T Get<T>(string url)
+        {
+            IRestResponse restResponse = client.Execute(new RestRequest(url, Method.GET));
+
+            int rateLimitRemaining = Convert.ToInt32(restResponse.Headers
+                .FirstOrDefault(parameter => parameter.Name == "X-Discogs-Ratelimit-Remaining")?.Value);
+
+            if (rateLimitRemaining < 30) Thread.Sleep(1000);
+
+            T data = JsonConvert.DeserializeObject<T>(restResponse.Content);
+
+            return data;
+        }
+
+        private IEnumerable<T> GetReleases<T>(string url)
+        {
+            while (url != null)
+            {
+                DiscogsPaginableReleases<T> paginable = Get<DiscogsPaginableReleases<T>>(url);
+
+                foreach (T result in paginable.GetResults()) yield return result;
+
+                url = paginable.pagination.urls.next;
+            }
+        }
+
+        public byte[] DownloadImage(DiscogsImage image)
+        {
+            return client.DownloadData(new RestRequest(image.resource_url));
         }
     }
 }

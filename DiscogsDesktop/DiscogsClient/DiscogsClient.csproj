@@ -129,6 +129,8 @@
     <Compile Include="Data\Result\DiscogsCommunity.cs" />
     <Compile Include="Data\Result\DiscogsCommunityInfo.cs" />
     <Compile Include="Data\Result\DiscogsCommunityReleaseRating.cs" />
+    <Compile Include="Data\Result\DiscogsCustomField.cs" />
+    <Compile Include="Data\Result\DiscogsCustomFields.cs" />
     <Compile Include="Data\Result\DiscogsEntity.cs" />
     <Compile Include="Data\Result\DiscogsFormat.cs" />
     <Compile Include="Data\Result\DiscogsGroupOrBandMember.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="Data\Result\DiscogsLabelRelease.cs" />
     <Compile Include="Data\Result\DiscogsLabelReleases.cs" />
     <Compile Include="Data\Result\DiscogsMaster.cs" />
+    <Compile Include="Data\Result\DiscogsNote.cs" />
     <Compile Include="Data\Result\DiscogsPaginableResults.cs" />
     <Compile Include="Data\Result\DiscogsPaginedResult.cs" />
     <Compile Include="Data\Result\DiscogsPaginedUrls.cs" />

@@ -31,12 +31,26 @@ namespace libDicogsDesktopControls.Helper
                 dataRows
                     .Where(d => d.Table.Columns.Contains("id") &&
                                 (!d.Table.Columns.Contains("type") || d["type"].ToString() == "release"))
-                    .Select(d => int.Parse(d["id"].ToString())).ToArray(),
+                    .ToDictionary(d => int.Parse(d["id"].ToString()),
+                        d =>
+                        {
+                            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                            if (string.IsNullOrWhiteSpace(DiscogsService.ExportFieldInTitle) || !d.Table.Columns.Contains(DiscogsService.ExportFieldInTitle)) return dictionary;
+
+                            dictionary.Add(DiscogsService.ExportFieldInTitle, d[DiscogsService.ExportFieldInTitle].ToString());
+
+                            return dictionary;
+                        }),
                 help
             );
         }
 
         public static void ReleasesHelp(int[] ids, Help help)
+        {
+            ReleasesHelp(ids.ToDictionary(id => id, id => new Dictionary<string,string>()), help);
+        }
+
+        public static void ReleasesHelp(Dictionary<int, Dictionary<string,string>> idsAndExportFields, Help help)
         {
             string folder = null;
             if (help == Help.Export)
@@ -53,6 +67,8 @@ namespace libDicogsDesktopControls.Helper
             }
 
             ProgressDialog progressDialog = new ProgressDialog { InfoText = help.ToString() };
+
+            int[] ids = idsAndExportFields.Keys.ToArray();
 
             Task.Run(() =>
             {
@@ -71,12 +87,11 @@ namespace libDicogsDesktopControls.Helper
                             Task.WaitAll(release.videos.Select(v => Task.Run(() =>
                             {
                                 MediaService.GetVideoFilePath(v.uri, out _, null);
-                                MediaService.GetAudioFilePath(v.uri, out _);
                             })).ToArray());
                             break;
 
                         case Help.Export:
-                            MediaService.ExportRelease(release, folder);
+                            MediaService.ExportRelease(release, folder, idsAndExportFields[ids[i]]);
                             break;
 
                         default:

@@ -26,7 +26,7 @@ namespace libDicogsDesktopControls.Controls
         {
             this.InvokeIfRequired(() =>
             {
-                this.buttonPlayAudio.Enabled = this.buttonPlayVideo.Enabled = this.buttonExport.Enabled = this.controlModel.DownloadSuccessfull;
+                this.buttonPlayAudio.Enabled = this.buttonExport.Enabled = this.controlModel.DownloadSuccessfull;
                 this.progressBarLoading.Visible = false;
             });
         }
@@ -38,7 +38,7 @@ namespace libDicogsDesktopControls.Controls
 
         private void buttonPlayVideoClick(object sender, EventArgs e)
         {
-            this.controlModel.PlayVideo();
+
         }
 
         private void buttonExportClick(object sender, EventArgs e)

@@ -31,30 +31,21 @@
             this.components = new System.ComponentModel.Container();
             this.labelTitle = new System.Windows.Forms.Label();
             this.toolTipInfo = new System.Windows.Forms.ToolTip(this.components);
-            this.progressBarLoading = new System.Windows.Forms.ProgressBar();
             this.buttonExport = new System.Windows.Forms.Button();
-            this.buttonPlayVideo = new System.Windows.Forms.Button();
             this.buttonOpenUrl = new System.Windows.Forms.Button();
             this.buttonPlayAudio = new System.Windows.Forms.Button();
+            this.progressBarLoading = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // labelTitle
             // 
             this.labelTitle.AutoSize = true;
             this.labelTitle.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTitle.Location = new System.Drawing.Point(141, 6);
+            this.labelTitle.Location = new System.Drawing.Point(115, 8);
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Size = new System.Drawing.Size(44, 25);
             this.labelTitle.TabIndex = 0;
             this.labelTitle.Text = "title";
-            // 
-            // progressBarLoading
-            // 
-            this.progressBarLoading.Location = new System.Drawing.Point(0, 0);
-            this.progressBarLoading.Name = "progressBarLoading";
-            this.progressBarLoading.Size = new System.Drawing.Size(133, 10);
-            this.progressBarLoading.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.progressBarLoading.TabIndex = 4;
             // 
             // buttonExport
             // 
@@ -62,7 +53,7 @@
             this.buttonExport.FlatAppearance.BorderSize = 0;
             this.buttonExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonExport.Image = global::libDicogsDesktopControls.Properties.Resources.folder_into_24;
-            this.buttonExport.Location = new System.Drawing.Point(69, 9);
+            this.buttonExport.Location = new System.Drawing.Point(35, 9);
             this.buttonExport.Name = "buttonExport";
             this.buttonExport.Size = new System.Drawing.Size(29, 24);
             this.buttonExport.TabIndex = 5;
@@ -70,26 +61,12 @@
             this.buttonExport.UseVisualStyleBackColor = true;
             this.buttonExport.Click += new System.EventHandler(this.buttonExportClick);
             // 
-            // buttonPlayVideo
-            // 
-            this.buttonPlayVideo.Enabled = false;
-            this.buttonPlayVideo.FlatAppearance.BorderSize = 0;
-            this.buttonPlayVideo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonPlayVideo.Image = global::libDicogsDesktopControls.Properties.Resources.clapperboard;
-            this.buttonPlayVideo.Location = new System.Drawing.Point(35, 9);
-            this.buttonPlayVideo.Name = "buttonPlayVideo";
-            this.buttonPlayVideo.Size = new System.Drawing.Size(28, 24);
-            this.buttonPlayVideo.TabIndex = 3;
-            this.toolTipInfo.SetToolTip(this.buttonPlayVideo, "play video");
-            this.buttonPlayVideo.UseVisualStyleBackColor = true;
-            this.buttonPlayVideo.Click += new System.EventHandler(this.buttonPlayVideoClick);
-            // 
             // buttonOpenUrl
             // 
             this.buttonOpenUrl.FlatAppearance.BorderSize = 0;
             this.buttonOpenUrl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonOpenUrl.Image = global::libDicogsDesktopControls.Properties.Resources.link;
-            this.buttonOpenUrl.Location = new System.Drawing.Point(104, 9);
+            this.buttonOpenUrl.Location = new System.Drawing.Point(70, 9);
             this.buttonOpenUrl.Name = "buttonOpenUrl";
             this.buttonOpenUrl.Size = new System.Drawing.Size(29, 24);
             this.buttonOpenUrl.TabIndex = 2;
@@ -111,19 +88,26 @@
             this.buttonPlayAudio.UseVisualStyleBackColor = true;
             this.buttonPlayAudio.Click += new System.EventHandler(this.buttonPlayAudioClick);
             // 
+            // progressBarLoading
+            // 
+            this.progressBarLoading.Location = new System.Drawing.Point(0, 0);
+            this.progressBarLoading.Name = "progressBarLoading";
+            this.progressBarLoading.Size = new System.Drawing.Size(99, 10);
+            this.progressBarLoading.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.progressBarLoading.TabIndex = 4;
+            // 
             // VideoControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.progressBarLoading);
             this.Controls.Add(this.buttonExport);
-            this.Controls.Add(this.buttonPlayVideo);
             this.Controls.Add(this.buttonOpenUrl);
             this.Controls.Add(this.buttonPlayAudio);
             this.Controls.Add(this.labelTitle);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "VideoControl";
-            this.Size = new System.Drawing.Size(1502, 45);
+            this.Size = new System.Drawing.Size(1533, 45);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -134,7 +118,6 @@
         private System.Windows.Forms.Label labelTitle;
         private System.Windows.Forms.Button buttonPlayAudio;
         private System.Windows.Forms.Button buttonOpenUrl;
-        private System.Windows.Forms.Button buttonPlayVideo;
         private System.Windows.Forms.ToolTip toolTipInfo;
         private System.Windows.Forms.ProgressBar progressBarLoading;
         private System.Windows.Forms.Button buttonExport;

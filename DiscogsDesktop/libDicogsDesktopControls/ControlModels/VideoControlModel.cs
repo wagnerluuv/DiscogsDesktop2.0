@@ -40,11 +40,6 @@ namespace libDicogsDesktopControls.ControlModels
             Task.Run(() => { GlobalControls.SoundPlayerControl.Play(this.VideoFilePath, this.VideoModel.Title); });
         }
 
-        public void PlayVideo()
-        {
-            Process.Start(this.VideoFilePath);
-        }
-
         public void Export()
         {
             using (FolderBrowserDialog dialog = new FolderBrowserDialog())
@@ -70,8 +65,6 @@ namespace libDicogsDesktopControls.ControlModels
         {
             MediaService.GetVideoFilePath(this.VideoModel.Url, out string path, reporter);
             this.VideoFilePath = path;
-
-            Task.Run(() => { MediaService.GetAudioFilePath(this.VideoModel.Url, out _); });
         }
 
         private void loadingFinished()

@@ -7,5 +7,7 @@ namespace DiscogsClient.Data.Result
         public DateTime date_added { get; set; }
 
         public DiscogsRelease basic_information { get; set; }
+
+        public DiscogsNote[] notes { get; set; }
     }
 }

@@ -6,4 +6,14 @@
 
         public abstract T[] GetResults();
     }
+
+    public class DiscogsPaginableReleases<T> : DiscogsPaginableResults<T>
+    {
+        public T[] releases { get; set; }
+
+        public override T[] GetResults()
+        {
+            return releases;
+        }
+    }
 }

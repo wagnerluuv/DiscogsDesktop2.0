@@ -18,7 +18,7 @@ namespace DiscogsDesktop
 
             Settings.Default.PropertyChanged += (sender, args) => this.checkSettings();
 
-            this.toolStripTextBoxMaxItems.Text = Settings.Default.MaxItems.ToString();
+            this.toolStripTextBoxMaxItems.Text = Settings.Default.ExportFieldInTitle.ToString();
             
             this.toolStripTextBoxTableFontSize.Text = Settings.Default.TableFontSize.ToString();
             
@@ -51,7 +51,7 @@ namespace DiscogsDesktop
 
             DiscogsService.SetApplicationFolder(Settings.Default.Folder);
 
-            DiscogsService.MaxItems = Settings.Default.MaxItems;
+            DiscogsService.ExportFieldInTitle = Settings.Default.ExportFieldInTitle;
 
             DiscogsService.SetToken(Settings.Default.Token);
 
@@ -107,17 +107,10 @@ namespace DiscogsDesktop
             }
 
             e.Handled = true;
+            
+            DiscogsService.ExportFieldInTitle = this.toolStripTextBoxMaxItems.Text;
 
-            if (!int.TryParse(this.toolStripTextBoxMaxItems.Text, out int maxitems))
-            {
-                MessageBox.Show("please provide a valid number", "invalid number format", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.toolStripTextBoxMaxItems.Text = Settings.Default.MaxItems.ToString();
-                return;
-            }
-
-            DiscogsService.MaxItems = maxitems;
-
-            Settings.Default.MaxItems = maxitems;
+            Settings.Default.ExportFieldInTitle = DiscogsService.ExportFieldInTitle;
             Settings.Default.Save();
         }
 

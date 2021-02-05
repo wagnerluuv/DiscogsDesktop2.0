@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -196,7 +197,7 @@ namespace libDiscogsDesktop.Services
             return path;
         }
 
-        public static void ExportRelease(DiscogsRelease release, string folder)
+        public static void ExportRelease(DiscogsRelease release, string folder, Dictionary<string, string> exportFields)
         {
             if (release.videos == null)
             {
@@ -210,9 +211,30 @@ namespace libDiscogsDesktop.Services
                     continue;
                 }
 
-                string filename = getEscaped(releaseVideo.title);
+                string releaseVideoTitle = releaseVideo.title;
 
-                string releaseName = $"{string.Join(", ", release.artists?.Select(a => a.name).ToArray() ?? new string[0])} - {release.title}";
+                string fieldExport = "";
+
+                if (exportFields.Any())
+                {
+                    fieldExport = " (";
+
+                    foreach (string fieldName in exportFields.Keys)
+                    {
+                        if (fieldExport != " (")
+                            fieldExport += ", ";
+
+                        fieldExport += $"{fieldName}-{exportFields[fieldName]}";
+                    }
+
+                    fieldExport += ")";
+
+                    releaseVideoTitle += fieldExport;
+                }
+
+                string filename = getEscaped(releaseVideoTitle);
+
+                string releaseName = $"{string.Join(", ", release.artists?.Select(a => a.name).ToArray() ?? new string[0])} - {release.title}{fieldExport}";
 
                 foreach (char invalidPathChar in Path.GetInvalidPathChars())
                 {
@@ -239,6 +261,7 @@ namespace libDiscogsDesktop.Services
                     TagLib.File file = TagLib.File.Create(dest);
                     DiscogsTrack track = getTrack(releaseVideo, release);
                     file.Tag.Title = track?.title;
+                    if (!string.IsNullOrWhiteSpace(file.Tag.Title)) file.Tag.Title += fieldExport;
                     file.Tag.Performers = track?.artists?.Select(a => a.name).ToArray()
                                           ?? release.artists?.Select(a => a.name).ToArray()
                                           ?? new string[0];
@@ -272,7 +295,7 @@ namespace libDiscogsDesktop.Services
 
             if (tracksByTitle.Length > 1)
             {
-                DiscogsTrack[] tracksByArtist = tracksByTitle.Where(t => t.artists.Any(a => video.title.ToLower().Contains(a.name))).ToArray();
+                DiscogsTrack[] tracksByArtist = tracksByTitle.Where(t => t.artists.Any(a => video.title.ToLower().Contains(a.name)) == true).ToArray();
 
                 if (tracksByArtist.Length > 1)
                 {

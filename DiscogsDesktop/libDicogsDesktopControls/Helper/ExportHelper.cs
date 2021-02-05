@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,7 +47,7 @@ namespace libDicogsDesktopControls.Helper
                     for (int i = 0; i < ids.Length; i++)
                     {
                         DiscogsRelease release = DiscogsService.GetRelease(ids[i]);
-                        MediaService.ExportRelease(release, folder);
+                        MediaService.ExportRelease(release, folder, new Dictionary<string, string>());
                         progressDialog?.SetProgress(ProgressHelper.GetProgressPercentage(i + 1, ids.Length));
                     }
                 });
