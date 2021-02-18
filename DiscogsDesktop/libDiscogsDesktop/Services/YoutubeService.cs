@@ -33,14 +33,11 @@ namespace libDiscogsDesktop.Services
 
                 StreamManifest streams = client.Videos.Streams.GetManifestAsync(videoId).Result;
 
-                IEnumerable<AudioOnlyStreamInfo> audioStreams = streams.GetAudioOnly().ToArray();
+                IEnumerable<AudioOnlyStreamInfo> audioStreams = streams.GetAudioOnly().Where(info => info.Container == Container.Mp4).ToArray();
 
                 IStreamInfo streamInfo;
 
-                streamInfo = streams.GetAudioOnly()
-                    .FirstOrDefault(info =>
-                        info.Bitrate.BitsPerSecond ==
-                        audioStreams.Max(onlyStreamInfo => onlyStreamInfo.Bitrate.BitsPerSecond));
+                streamInfo = streams.GetAudioOnly().FirstOrDefault(info => info.Bitrate.BitsPerSecond == audioStreams.Max(onlyStreamInfo => onlyStreamInfo.Bitrate.BitsPerSecond));
 
                 if (streamInfo == null)
                 {

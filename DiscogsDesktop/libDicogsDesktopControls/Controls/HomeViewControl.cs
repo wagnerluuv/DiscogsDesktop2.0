@@ -36,6 +36,11 @@ namespace libDicogsDesktopControls.Controls
             set => dataGridView1.Font = new Font(dataGridView1.Font.FontFamily, value);
         }
 
+        public void SyncCollection()
+        {
+            viewmodel.GetCollection(true);
+        }
+
         private void viewmodelOnUserChanged()
         {
             labelUserName.InvokeIfRequired(() => { labelUserName.Text = $"logged in as: {viewmodel.User?.username}"; });

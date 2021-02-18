@@ -48,7 +48,7 @@ namespace libDicogsDesktopControls.Helper
                         MediaService.GetAudioFilePath(v.uri, out _);
                     })).ToArray());
 
-                    progressDialog?.SetProgress(ProgressHelper.GetProgressPercentage(i + 1, ids.Length));
+                    progressDialog?.SetProgress(ProgressHelper.GetProgressPercentage(i + 1, ids.Length), i +1, ids.Length);
                 }
             });
 

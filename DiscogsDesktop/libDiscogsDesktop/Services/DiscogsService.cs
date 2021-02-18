@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using DiscogsClient.Client;
 using DiscogsClient.Data.Result;
@@ -21,9 +22,17 @@ namespace libDiscogsDesktop.Services
 
         private static Dictionary<int, DiscogsLabel> labelCache = new Dictionary<int, DiscogsLabel>();
 
+        private static Dictionary<string, DiscogsCollectionRelease[]> collectionCache = new Dictionary<string, DiscogsCollectionRelease[]>();
+
+        private static Dictionary<string, HashSet<string>> likes = new Dictionary<string, HashSet<string>>();
+
+        private static object saveLikeLock = new object();
+
         public static string ApplicationFolder { get; private set; }
 
         public static string CacheFolder => Path.Combine(ApplicationFolder ?? "", "Cache");
+
+        public static string LikesFolder => Path.Combine(ApplicationFolder ?? "", "Likes");
 
         public static string ExportFieldInTitle { get; set; }
 
@@ -39,6 +48,18 @@ namespace libDiscogsDesktop.Services
             }
             else
             {
+                if (File.Exists(Path.Combine(CacheFolder, nameof(collectionCache))))
+                    try
+                    {
+                        collectionCache =
+                            JsonConvert.DeserializeObject<Dictionary<string, DiscogsCollectionRelease[]>>(
+                                File.ReadAllText(Path.Combine(CacheFolder, nameof(collectionCache))));
+                    }
+                    catch
+                    {
+                        //ignore;
+                    }
+
                 if (File.Exists(Path.Combine(CacheFolder, nameof(releaseCache))))
                     try
                     {
@@ -86,6 +107,26 @@ namespace libDiscogsDesktop.Services
                     {
                         //ignore;
                     }
+            }
+
+            if (!Directory.Exists(LikesFolder))
+            {
+                Directory.CreateDirectory(LikesFolder);
+            }
+            else
+            {
+                if (File.Exists(Path.Combine(LikesFolder, nameof(likes))))
+                    try
+                    {
+                        likes =
+                            JsonConvert.DeserializeObject<Dictionary<string, HashSet<string>>>(
+                                File.ReadAllText(Path.Combine(LikesFolder, nameof(likes))));
+                    }
+                    catch
+                    {
+                        //ignore;
+                    }
+
             }
         }
 
@@ -164,11 +205,21 @@ namespace libDiscogsDesktop.Services
             return labelCache[id];
         }
 
-        public static void GetCollectionReleases(string username,
-            ObservableCollection<DiscogsCollectionRelease> observable)
+        public static void GetCollectionReleases(ObservableCollection<DiscogsCollectionRelease> observable, bool overwriteCache)
         {
-            DiscogsCollectionRelease[] releases = client.GetCollectionReleases();
-            foreach (DiscogsCollectionRelease discogsCollectionRelease in releases)
+            string username = GetUser().username;
+
+            if (overwriteCache && collectionCache.ContainsKey(username))
+            {
+                collectionCache.Remove(username);
+            }
+            if (!collectionCache.ContainsKey(username))
+            {
+                collectionCache.Add(username, client.GetCollectionReleases(username));
+                saveCache(collectionCache, nameof(collectionCache));
+            }
+
+            foreach (DiscogsCollectionRelease discogsCollectionRelease in collectionCache[username])
                 observable.Add(discogsCollectionRelease);
         }
 
@@ -194,6 +245,44 @@ namespace libDiscogsDesktop.Services
             File.WriteAllBytes(filepath, client.DownloadImage(image));
         }
 
+        public static bool LikesTrack(DiscogsRelease release, string track)
+        {
+            lock (likes)
+            {
+                string key = $"{release.id}_{track}";
+
+                string username = GetUser().username;
+
+                return likes.ContainsKey(username) && likes[username].Contains(key);
+            }
+        }
+
+        public static void LikeTrack(DiscogsRelease release, string track, bool like)
+        {
+            lock (likes)
+            {
+                string key = $"{release.id}_{track}";
+
+                string username = GetUser().username;
+
+                if (!likes.ContainsKey(username))
+                {
+                    likes.Add(username, new HashSet<string>());
+                }
+
+                if (like && !likes[username].Contains(key))
+                {
+                    likes[username].Add(key);
+                }
+                else if (!like && likes[username].Contains(key))
+                {
+                    likes[username].Remove(key);
+                }
+
+                saveLikes();
+            }
+        }
+
         private static void saveCache(object cache, string name)
         {
             Task.Run(() =>
@@ -205,6 +294,24 @@ namespace libDiscogsDesktop.Services
                 catch
                 {
                     //ignore
+                }
+            });
+        }
+
+        private static void saveLikes()
+        {
+            Task.Run(() =>
+            {
+                lock (saveLikeLock)
+                {
+                    try
+                    {
+                        File.WriteAllText(Path.Combine(LikesFolder, nameof(likes)), JsonConvert.SerializeObject(likes));
+                    }
+                    catch
+                    {
+                        //ignore
+                    }
                 }
             });
         }

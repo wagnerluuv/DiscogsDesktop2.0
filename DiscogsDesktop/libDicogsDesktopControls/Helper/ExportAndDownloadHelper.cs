@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DiscogsClient.Data.Result;
-using JetBrains.Annotations;
 using libDicogsDesktopControls.Dialogs;
 using libDiscogsDesktop.Helper;
 using libDiscogsDesktop.Services;
@@ -27,46 +25,48 @@ namespace libDicogsDesktopControls.Helper
 
         public static void ReleasesHelp(IEnumerable<DataRow> dataRows, Help help)
         {
-            ReleasesHelp(
-                dataRows
-                    .Where(d => d.Table.Columns.Contains("id") &&
-                                (!d.Table.Columns.Contains("type") || d["type"].ToString() == "release"))
-                    .ToDictionary(d => int.Parse(d["id"].ToString()),
-                        d =>
-                        {
-                            Dictionary<string, string> dictionary = new Dictionary<string, string>();
-                            if (string.IsNullOrWhiteSpace(DiscogsService.ExportFieldInTitle) || !d.Table.Columns.Contains(DiscogsService.ExportFieldInTitle)) return dictionary;
+            IEnumerable<DataRow> releases = dataRows.Where(d =>
+                d.Table.Columns.Contains("id") &&
+                (!d.Table.Columns.Contains("type") || d["type"].ToString() == "release")).ToArray();
 
-                            dictionary.Add(DiscogsService.ExportFieldInTitle, d[DiscogsService.ExportFieldInTitle].ToString());
+            Dictionary<int, Dictionary<string, string>> idsAndExportFields =
+                new Dictionary<int, Dictionary<string, string>>();
 
-                            return dictionary;
-                        }),
-                help
-            );
+            foreach (DataRow release in releases)
+            {
+                if(!idsAndExportFields.ContainsKey(int.Parse(release["id"].ToString())))
+                {
+                    Dictionary<string, string> dictionary = new Dictionary<string, string>();
+
+                    if (help == Help.Export && !string.IsNullOrWhiteSpace(DiscogsService.ExportFieldInTitle) && release.Table.Columns.Contains(DiscogsService.ExportFieldInTitle))
+                    {
+                        dictionary.Add(DiscogsService.ExportFieldInTitle, release[DiscogsService.ExportFieldInTitle].ToString());
+                    }
+
+                    idsAndExportFields.Add(int.Parse(release["id"].ToString()), dictionary);
+                };
+            }
+
+            ReleasesHelp(idsAndExportFields, help);
         }
 
         public static void ReleasesHelp(int[] ids, Help help)
         {
-            ReleasesHelp(ids.ToDictionary(id => id, id => new Dictionary<string,string>()), help);
+            ReleasesHelp(ids.ToDictionary(id => id, id => new Dictionary<string, string>()), help);
         }
 
-        public static void ReleasesHelp(Dictionary<int, Dictionary<string,string>> idsAndExportFields, Help help)
+        public static void ReleasesHelp(Dictionary<int, Dictionary<string, string>> idsAndExportFields, Help help)
         {
             string folder = null;
             if (help == Help.Export)
-            {
                 using (FolderBrowserDialog dialog = new FolderBrowserDialog())
                 {
-                    if (dialog.ShowDialog() != DialogResult.OK)
-                    {
-                        return;
-                    }
+                    if (dialog.ShowDialog() != DialogResult.OK) return;
 
                     folder = dialog.SelectedPath;
                 }
-            }
 
-            ProgressDialog progressDialog = new ProgressDialog { InfoText = help.ToString() };
+            ProgressDialog progressDialog = new ProgressDialog {InfoText = help.ToString()};
 
             int[] ids = idsAndExportFields.Keys.ToArray();
 
@@ -76,10 +76,7 @@ namespace libDicogsDesktopControls.Helper
                 {
                     DiscogsRelease release = DiscogsService.GetRelease(ids[i]);
 
-                    if (release.videos == null || release.videos.Length == 0)
-                    {
-                        continue;
-                    }
+                    if (release.videos == null || release.videos.Length == 0) continue;
 
                     switch (help)
                     {
@@ -98,7 +95,7 @@ namespace libDicogsDesktopControls.Helper
                             return;
                     }
 
-                    progressDialog?.SetProgress(ProgressHelper.GetProgressPercentage(i + 1, ids.Length));
+                    progressDialog?.SetProgress(ProgressHelper.GetProgressPercentage(i + 1, ids.Length), i + 1, ids.Length);
                 }
             });
 

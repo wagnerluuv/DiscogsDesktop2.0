@@ -12,6 +12,8 @@ namespace DiscogsDesktop
 {
     public sealed partial class FormDiscogsDesktop : Form
     {
+        private HomeViewControl viewMain;
+
         public FormDiscogsDesktop()
         {
             this.InitializeComponent();
@@ -56,7 +58,7 @@ namespace DiscogsDesktop
             DiscogsService.SetToken(Settings.Default.Token);
 
             this.panelView.Controls.Clear();
-            HomeViewControl viewMain = new HomeViewControl();
+            viewMain = new HomeViewControl();
             viewMain.TableFontSize = Settings.Default.TableFontSize;
             this.panelView.Controls.Add(viewMain);
             viewMain.Dock = DockStyle.Fill;
@@ -141,6 +143,11 @@ namespace DiscogsDesktop
         private void clearCacheToolStripMenuItemClick(object sender, EventArgs e)
         {
             DiscogsService.ClearCache();
+        }
+
+        private void syncCollectionToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            this.viewMain?.SyncCollection();
         }
     }
 }

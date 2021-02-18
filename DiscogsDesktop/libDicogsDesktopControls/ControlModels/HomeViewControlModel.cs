@@ -126,7 +126,7 @@ namespace libDicogsDesktopControls.ControlModels
             }
         }
 
-        public void GetCollection()
+        public void GetCollection(bool overwrite = false)
         {
             this.CollectionTable.CaseSensitive = false;
             this.CollectionTable.Rows.Clear();
@@ -141,7 +141,7 @@ namespace libDicogsDesktopControls.ControlModels
                     new DataColumn("Id")
                 });
             this.collectionResults.Clear();
-            DiscogsService.GetCollectionReleases(this.User?.username, this.collectionResults);
+            DiscogsService.GetCollectionReleases(this.collectionResults, overwrite);
         }
 
         public void DownloadCurrentList()

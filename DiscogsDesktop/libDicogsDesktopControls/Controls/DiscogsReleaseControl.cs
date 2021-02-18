@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using DiscogsClient.Data.Result;
@@ -20,6 +21,8 @@ namespace libDicogsDesktopControls.Controls
             this.InitializeComponent();
 
             this.viewmodel = new DiscogsReleaseControlModel(release);
+
+            this.dataGridViewTracks.DataSource = this.viewmodel.TracksTable;
 
             this.linkLabelLabel.Text = this.viewmodel.LabelName;
 
@@ -96,6 +99,30 @@ namespace libDicogsDesktopControls.Controls
         private void buttonExportReleasesClick(object sender, EventArgs e)
         {
             this.viewmodel.ExportRelease();
+        }
+
+        private void dataGridViewTracks_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 0 && e.RowIndex != -1)
+            {
+                dataGridViewTracks.EndEdit();
+            }
+        }
+
+        private void dataGridViewTracks_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.ColumnIndex == 0 && e.RowIndex != -1)
+            {
+                dataGridViewTracks.EndEdit();
+            }
+        }
+
+        private void dataGridViewTracks_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex != -1)
+            {
+                this.viewmodel.LikeChanged(e.RowIndex);
+            }
         }
     }
 }

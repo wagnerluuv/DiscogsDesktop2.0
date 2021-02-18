@@ -58,9 +58,9 @@ namespace DiscogsClient.Client
                    (customFields = Get<DiscogsCustomFields>($"/users/{GetUser().username}/collection/fields"));
         }
 
-        public DiscogsCollectionRelease[] GetCollectionReleases()
+        public DiscogsCollectionRelease[] GetCollectionReleases(string username)
         {
-            return GetReleases<DiscogsCollectionRelease>($"/users/{GetUser().username}/collection/folders/0/releases")
+            return GetReleases<DiscogsCollectionRelease>($"/users/{username}/collection/folders/0/releases")
                 .ToArray();
         }
 
