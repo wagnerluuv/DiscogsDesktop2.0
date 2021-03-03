@@ -178,6 +178,20 @@ namespace libDiscogsDesktop.Services
             }
         }
 
+        public static bool GetPlayablePath(string youtubeUrl, out string path)
+        {
+            path = downloadedAudioPath(youtubeUrl);
+
+            if (File.Exists(path))
+            {
+                return true;
+            }
+
+            path = downloadedVideoPath(youtubeUrl);
+
+            return File.Exists(path);
+        }
+
         public static string GetImageFilePath(DiscogsImage image)
         {
             if (image == null)
@@ -241,7 +255,7 @@ namespace libDiscogsDesktop.Services
                     releaseName = releaseName.Replace(invalidPathChar, ' ');
                 }
 
-                string destFolder = Path.Combine(folder, releaseName);
+                string destFolder = Path.Combine(folder, getEscaped(releaseName)).Trim();
 
                 if (!Directory.Exists(destFolder))
                 {
@@ -295,7 +309,11 @@ namespace libDiscogsDesktop.Services
 
             if (tracksByTitle.Length > 1)
             {
-                DiscogsTrack[] tracksByArtist = tracksByTitle.Where(t => t.artists.Any(a => video.title.ToLower().Contains(a.name)) == true).ToArray();
+                DiscogsTrack[] tracksByArtist = tracksByTitle.Where(t =>
+                {
+                    DiscogsReleaseArtist[] discogsReleaseArtists = t.artists ?? release.artists;
+                    return discogsReleaseArtists.Any(a => video.title.ToLower().Contains(a.name)) == true;
+                }).ToArray();
 
                 if (tracksByArtist.Length > 1)
                 {
