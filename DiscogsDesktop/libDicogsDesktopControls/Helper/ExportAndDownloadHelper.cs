@@ -84,6 +84,7 @@ namespace libDicogsDesktopControls.Helper
                             Task.WaitAll(release.videos.Select(v => Task.Run(() =>
                             {
                                 MediaService.GetVideoFilePath(v.uri, out _, null);
+                                MediaService.GetAudioFilePath(v.uri, out _);
                             })).ToArray());
                             break;
 

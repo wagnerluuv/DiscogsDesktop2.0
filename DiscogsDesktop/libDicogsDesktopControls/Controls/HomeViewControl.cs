@@ -105,5 +105,15 @@ namespace libDicogsDesktopControls.Controls
         {
             viewmodel.ExportCurrentList();
         }
+
+        private void buttonFindUserCollection_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBoxotherUser.Text))
+            {
+                return;
+            }
+
+            viewmodel.GetCollection(false, textBoxotherUser.Text);
+        }
     }
 }

@@ -36,11 +36,6 @@ namespace libDicogsDesktopControls.Controls
             this.controlModel.PlayAudio();
         }
 
-        private void buttonPlayVideoClick(object sender, EventArgs e)
-        {
-
-        }
-
         private void buttonExportClick(object sender, EventArgs e)
         {
             this.controlModel.Export();

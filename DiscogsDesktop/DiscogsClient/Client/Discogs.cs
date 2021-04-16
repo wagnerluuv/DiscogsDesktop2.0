@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using DiscogsClient.Data.Query;
 using DiscogsClient.Data.Result;
 using Newtonsoft.Json;
 using RestSharp;
@@ -32,6 +33,11 @@ namespace DiscogsClient.Client
             return user ?? (user = Get<DiscogsIdentity>("oauth/identity"));
         }
 
+        public DiscogsSearchResult[] Search(string query)
+        {
+            return this.GetResults<DiscogsSearchResult>($"database/search?q={query}").ToArray();
+        }
+
         public DiscogsMaster GetMaster(int masterId)
         {
             return Get<DiscogsMaster>($"masters/{masterId}");
@@ -60,18 +66,18 @@ namespace DiscogsClient.Client
 
         public DiscogsCollectionRelease[] GetCollectionReleases(string username)
         {
-            return GetReleases<DiscogsCollectionRelease>($"/users/{username}/collection/folders/0/releases")
+            return GetResults<DiscogsCollectionRelease>($"/users/{username}/collection/folders/0/releases")
                 .ToArray();
         }
 
         public DiscogsLabelRelease[] GetLabelReleases(int labelId)
         {
-            return GetReleases<DiscogsLabelRelease>($"labels/{labelId}/releases").ToArray();
+            return GetResults<DiscogsLabelRelease>($"labels/{labelId}/releases").ToArray();
         }
 
         public DiscogsArtistRelease[] GetArtistReleases(int artistId)
         {
-            return GetReleases<DiscogsArtistRelease>($"artists/{artistId}/releases").ToArray();
+            return GetResults<DiscogsArtistRelease>($"artists/{artistId}/releases").ToArray();
         }
 
         private T Get<T>(string url)
@@ -88,7 +94,7 @@ namespace DiscogsClient.Client
             return data;
         }
 
-        private IEnumerable<T> GetReleases<T>(string url)
+        private IEnumerable<T> GetResults<T>(string url)
         {
             while (url != null)
             {

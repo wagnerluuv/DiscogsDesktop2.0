@@ -43,6 +43,8 @@ namespace libDicogsDesktopControls.Controls
             this.radioButtonAll = new System.Windows.Forms.RadioButton();
             this.buttonDownloadAllReleasesInList = new System.Windows.Forms.Button();
             this.buttonExportReleases = new System.Windows.Forms.Button();
+            this.textBoxotherUser = new System.Windows.Forms.TextBox();
+            this.buttonFindUserCollection = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
@@ -132,11 +134,10 @@ namespace libDicogsDesktopControls.Controls
             // 
             // labelUserName
             // 
-            this.labelUserName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelUserName.Location = new System.Drawing.Point(333, 5);
+            this.labelUserName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelUserName.Location = new System.Drawing.Point(1165, 5);
             this.labelUserName.Name = "labelUserName";
-            this.labelUserName.Size = new System.Drawing.Size(1082, 24);
+            this.labelUserName.Size = new System.Drawing.Size(250, 24);
             this.labelUserName.TabIndex = 6;
             this.labelUserName.Text = "logged in as:";
             this.labelUserName.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -175,7 +176,7 @@ namespace libDicogsDesktopControls.Controls
             // 
             // buttonDownloadAllReleasesInList
             // 
-            this.buttonDownloadAllReleasesInList.Location = new System.Drawing.Point(336, 5);
+            this.buttonDownloadAllReleasesInList.Location = new System.Drawing.Point(496, 6);
             this.buttonDownloadAllReleasesInList.Name = "buttonDownloadAllReleasesInList";
             this.buttonDownloadAllReleasesInList.Size = new System.Drawing.Size(171, 23);
             this.buttonDownloadAllReleasesInList.TabIndex = 8;
@@ -186,7 +187,7 @@ namespace libDicogsDesktopControls.Controls
             // 
             // buttonExportReleases
             // 
-            this.buttonExportReleases.Location = new System.Drawing.Point(513, 5);
+            this.buttonExportReleases.Location = new System.Drawing.Point(673, 6);
             this.buttonExportReleases.Name = "buttonExportReleases";
             this.buttonExportReleases.Size = new System.Drawing.Size(171, 23);
             this.buttonExportReleases.TabIndex = 9;
@@ -195,10 +196,30 @@ namespace libDicogsDesktopControls.Controls
             this.buttonExportReleases.UseVisualStyleBackColor = true;
             this.buttonExportReleases.Click += new System.EventHandler(this.buttonExportReleasesClick);
             // 
+            // textBoxotherUser
+            // 
+            this.textBoxotherUser.Location = new System.Drawing.Point(333, 5);
+            this.textBoxotherUser.Name = "textBoxotherUser";
+            this.textBoxotherUser.Size = new System.Drawing.Size(128, 22);
+            this.textBoxotherUser.TabIndex = 10;
+            // 
+            // buttonFindUserCollection
+            // 
+            this.buttonFindUserCollection.Location = new System.Drawing.Point(465, 4);
+            this.buttonFindUserCollection.Name = "buttonFindUserCollection";
+            this.buttonFindUserCollection.Size = new System.Drawing.Size(25, 23);
+            this.buttonFindUserCollection.TabIndex = 11;
+            this.buttonFindUserCollection.TabStop = false;
+            this.buttonFindUserCollection.Text = "export all releases in list";
+            this.buttonFindUserCollection.UseVisualStyleBackColor = true;
+            this.buttonFindUserCollection.Click += new System.EventHandler(this.buttonFindUserCollection_Click);
+            // 
             // HomeViewControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonFindUserCollection);
+            this.Controls.Add(this.textBoxotherUser);
             this.Controls.Add(this.buttonExportReleases);
             this.Controls.Add(this.buttonDownloadAllReleasesInList);
             this.Controls.Add(this.panel1);
@@ -235,5 +256,7 @@ namespace libDicogsDesktopControls.Controls
         private System.Windows.Forms.RadioButton radioButtonAll;
         private System.Windows.Forms.Button buttonDownloadAllReleasesInList;
         private System.Windows.Forms.Button buttonExportReleases;
+        private System.Windows.Forms.TextBox textBoxotherUser;
+        private System.Windows.Forms.Button buttonFindUserCollection;
     }
 }

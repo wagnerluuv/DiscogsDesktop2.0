@@ -37,7 +37,13 @@ namespace libDicogsDesktopControls.ControlModels
 
         public void PlayAudio()
         {
-            Task.Run(() => { GlobalControls.SoundPlayerControl.Play(this.VideoFilePath, this.VideoModel.Title); });
+            Task.Run(() =>
+            {
+                if (MediaService.GetPlayablePath(this.VideoModel.Url, out string playablePath))
+                {
+                    GlobalControls.SoundPlayerControl.Play(playablePath, this.VideoModel.Title);
+                }
+            });
         }
 
         public void Export()
@@ -64,6 +70,7 @@ namespace libDicogsDesktopControls.ControlModels
         private void load(TaskProgressReporter reporter)
         {
             MediaService.GetVideoFilePath(this.VideoModel.Url, out string path, reporter);
+            Task.Run(() => { MediaService.GetAudioFilePath(this.VideoModel.Url, out _); });
             this.VideoFilePath = path;
         }
 

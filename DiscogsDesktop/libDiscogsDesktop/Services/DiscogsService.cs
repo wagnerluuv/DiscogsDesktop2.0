@@ -205,9 +205,9 @@ namespace libDiscogsDesktop.Services
             return labelCache[id];
         }
 
-        public static void GetCollectionReleases(ObservableCollection<DiscogsCollectionRelease> observable, bool overwriteCache)
+        public static void GetCollectionReleases(ObservableCollection<DiscogsCollectionRelease> observable, bool overwriteCache, string otherUser)
         {
-            string username = GetUser().username;
+            string username = otherUser ?? GetUser().username;
 
             if (overwriteCache && collectionCache.ContainsKey(username))
             {
@@ -225,7 +225,8 @@ namespace libDiscogsDesktop.Services
 
         public static void Search(string pattern, ObservableCollection<DiscogsSearchResult> observable)
         {
-            //client.Search(new DiscogsSearch { query = pattern }, MaxItems).Subscribe(observable.Add);
+            DiscogsSearchResult[] releases = client.Search(pattern);
+            foreach (DiscogsSearchResult discogsSearchResult in releases) observable.Add(discogsSearchResult);
         }
 
         public static void GetLabelReleases(int id, ObservableCollection<DiscogsLabelRelease> observable)
