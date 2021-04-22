@@ -28,20 +28,20 @@ namespace libDiscogsDesktop.Services
             {
                 reporter?.ReportInDeterminate("getting links");
 
-                VideoId videoId = new VideoId(url);
+                VideoId videoId = VideoId.Parse(url);
                 YoutubeClient client = new YoutubeClient();
 
                 StreamManifest streams = client.Videos.Streams.GetManifestAsync(videoId).Result;
 
-                IEnumerable<AudioOnlyStreamInfo> audioStreams = streams.GetAudioOnly().Where(info => info.Container == Container.Mp4).ToArray();
+                IEnumerable<AudioOnlyStreamInfo> audioStreams = streams.GetAudioOnlyStreams().Where(info => info.Container == Container.Mp4).ToArray();
 
                 IStreamInfo streamInfo;
 
-                streamInfo = streams.GetAudioOnly().FirstOrDefault(info => info.Bitrate.BitsPerSecond == audioStreams.Max(onlyStreamInfo => onlyStreamInfo.Bitrate.BitsPerSecond));
+                streamInfo = streams.GetAudioOnlyStreams().FirstOrDefault(info => info.Bitrate.BitsPerSecond == audioStreams.Max(onlyStreamInfo => onlyStreamInfo.Bitrate.BitsPerSecond));
 
                 if (streamInfo == null)
                 {
-                    streamInfo = streams.GetMuxed().WithHighestVideoQuality();
+                    streamInfo = streams.GetMuxedStreams().GetWithHighestVideoQuality();
                 }
 
                 if (streamInfo == null)
@@ -53,7 +53,7 @@ namespace libDiscogsDesktop.Services
                     ? null
                     : new Progress<double>(d => reporter.ReportDeterminate((int) (d * 100), "downloading"));
 
-                client.Videos.Streams.DownloadAsync(streamInfo, successPath, progress).Wait();
+                client.Videos.Streams.DownloadAsync(streamInfo, successPath, progress).AsTask().Wait();
 
                 return true;
             }
